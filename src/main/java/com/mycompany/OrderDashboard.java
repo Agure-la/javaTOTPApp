@@ -442,6 +442,7 @@ public class OrderDashboard extends javax.swing.JFrame {
         try  {
             String query = "SELECT business_name, product_name, quantity, price, pickup, description, phone_no, order_no, status FROM orders WHERE status = 'pending' AND email = ?";
             PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, loggedUser);
             ResultSet resultSet = statement.executeQuery();
 
             // Iterate over the result set and add rows to the table model
@@ -500,6 +501,7 @@ public class OrderDashboard extends javax.swing.JFrame {
         try  {
             String query = "SELECT business_name, product_name, quantity, price, pickup, description, phone_no, order_no, status FROM orders WHERE status = 'pending' AND email = ?";
             PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, loggedUser);
             ResultSet resultSet = statement.executeQuery();
 
             // Iterate over the result set and add rows to the table model
@@ -545,17 +547,20 @@ public class OrderDashboard extends javax.swing.JFrame {
         this.setVisible(false);
         
         JTable table = new JTable();
+        
+        String loggedUser = userSession.getLoggedInUserEmail();
 
         // Set column names for the table
-        String[] columnNames = {"Business Name", "Product Name", "Quantity", "Price", "Pickup", "Description", "Phone No", "Order No", "Status"};
+        String[] columnNames = {"Business Name", "Product Name", "Quantity", "Price", "Pickup", "Description", "Phone No", "Order No", "Status", "email"};
         DefaultTableModel model = new DefaultTableModel(columnNames, 0);
         table.setModel(model);
 
         // Fetch data from the database
         Connection connection = connect();
         try  {
-            String query = "SELECT * FROM orders";
+            String query = "SELECT * FROM orders WHERE email = ?";
             PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, loggedUser);
             ResultSet resultSet = statement.executeQuery();
 
             // Iterate over the result set and add rows to the table model
@@ -569,8 +574,9 @@ public class OrderDashboard extends javax.swing.JFrame {
                 String phoneNo = resultSet.getString("phone_no");
                 String orderNo = resultSet.getString("order_no");
                 String status = resultSet.getString("status");
+                String email = resultSet.getString("email");
 
-                Object[] row = {businessName, productName, quantity, price, pickup, description, phoneNo, orderNo, status};
+                Object[] row = {businessName, productName, quantity, price, pickup, description, phoneNo, orderNo, status, email};
                 model.addRow(row);
             }
         } catch (SQLException e) {
@@ -617,9 +623,11 @@ public class OrderDashboard extends javax.swing.JFrame {
          this.setVisible(false);
 
     JTable table = new JTable();
+    
+    String loggedUser = userSession.getLoggedInUserEmail();
 
     // Set column names for the table
-    String[] columnNames = {"Business Name", "Product Name", "Quantity", "Price", "Pickup", "Description", "Phone No", "Order No", "Status"};
+    String[] columnNames = {"Business Name", "Product Name", "Quantity", "Price", "Pickup", "Description", "Phone No", "Order No", "Status", "email"};
     DefaultTableModel model = new DefaultTableModel(columnNames, 0);
     table.setModel(model);
 

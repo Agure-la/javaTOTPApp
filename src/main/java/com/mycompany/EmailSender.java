@@ -17,8 +17,8 @@ public class EmailSender {
       private static final String SMTP_HOST = "smtp.gmail.com";
     private static final String SMTP_PORT = "587";
     private static final String SMTP_USERNAME = "lameckagure";
-    private static final String SMTP_PASSWORD = "yuulszndiyqtdkip";
-    private static final String EMAIL_FROM = "lameckagure@gmail.com";
+    private static final String SMTP_PASSWORD = "YOUR SMTP PASSWORD";
+    private static final String EMAIL_FROM = "YOUR EMAIL";
     private static final String EMAIL_SUBJECT = "Your OTP";
 
     public static void sendEmail(String recipientEmail, String emailContent) {
