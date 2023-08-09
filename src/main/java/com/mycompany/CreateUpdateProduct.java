@@ -262,6 +262,7 @@ public class CreateUpdateProduct extends javax.swing.JFrame {
     @Autowired
     UserSession userSession;
     
+    //Handle create product
     private void AddButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddButtonActionPerformed
         // TODO add your handling code here:
            String userEmail = userSession.getLoggedInUserEmail();
@@ -298,6 +299,7 @@ public class CreateUpdateProduct extends javax.swing.JFrame {
     }//GEN-LAST:event_AddButtonActionPerformed
 
     
+    //make the field to only allow digits
     private void keyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_keyTyped
         // TODO add your handling code here:
         char c = evt.getKeyChar();
@@ -310,6 +312,7 @@ public class CreateUpdateProduct extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_priceTextFieldActionPerformed
 
+    //make the field to only allow digits
     private void handleKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_handleKeyPressed
         // TODO add your handling code here:
         char c = evt.getKeyChar();
@@ -318,6 +321,7 @@ public class CreateUpdateProduct extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_handleKeyPressed
 
+    //handle file upload
     private void uploadBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uploadBtnActionPerformed
         // TODO add your handling code here:
          JFileChooser fileChooser = new JFileChooser();

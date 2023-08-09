@@ -114,6 +114,7 @@ public class OtpVerification extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    //make the field to only allow digits
     private void otpTextFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_otpTextFieldKeyTyped
         // TODO add your handling code here:
         char c = evt.getKeyChar();
@@ -127,7 +128,7 @@ public class OtpVerification extends javax.swing.JFrame {
     }//GEN-LAST:event_otpTextFieldKeyTyped
 
    // RandomOtp rand = new RandomOtp();
-    
+    //check if the OTP entered is the same as the one generated
     private void verifyBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verifyBtnActionPerformed
         // TODO add your handling code here:
         if (RandomOtp.generateOTP() == expectedOtp && !RandomOtp.isOTPExpired(expectedOtp)){

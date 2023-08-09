@@ -234,7 +234,7 @@ public class Login extends javax.swing.JFrame {
     return email;
     }
     
-    
+    //generate secret key for jwt
     public static String generateSecretKey() {
         int keyLengthInBytes = 32; // 256 bits
         SecureRandom secureRandom = new SecureRandom();
@@ -249,6 +249,7 @@ public class Login extends javax.swing.JFrame {
         SECRET_KEY = secretKey;
     }
     
+    //generate jwt
      public static String generateJwtToken(String email) {
         return Jwts.builder()
                 .setSubject(email)
@@ -256,9 +257,11 @@ public class Login extends javax.swing.JFrame {
                 .compact();
     }
      
+     //inject userSession
      @Autowired
      UserSession userSession;
-    
+     
+    //handle login
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
         // TODO add your handling code here:
         password = String.valueOf(passwordField.getPassword());

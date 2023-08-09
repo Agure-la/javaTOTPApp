@@ -8,6 +8,7 @@ package com.mycompany;
  *
  * @author odeny
  */
+//keeps the check on the current user
 public class UserSession {
      private static String loggedInUserEmail;
 

@@ -305,6 +305,7 @@ public class CreateEditOrderForm extends javax.swing.JFrame {
         
     }//GEN-LAST:event_priceFieldActionPerformed
 
+    //make the field to only allow digits
     private void PriceFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_PriceFieldKeyTyped
         // TODO add your handling code here:
         char c = evt.getKeyChar();
@@ -313,6 +314,7 @@ public class CreateEditOrderForm extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_PriceFieldKeyTyped
 
+    //make the field to only allow digits
     private void QuantityKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_QuantityKeyTyped
         // TODO add your handling code here:
         char c = evt.getKeyChar();
@@ -321,6 +323,7 @@ public class CreateEditOrderForm extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_QuantityKeyTyped
 
+    //create random string
       public String randomString(){
         byte[] arr = new byte[8];
         new Random().nextBytes(arr);
@@ -328,25 +331,31 @@ public class CreateEditOrderForm extends javax.swing.JFrame {
        return genString.toUpperCase();
     }
 
+      //Create random digit
     public int randomNumber(){
         Random random = new Random();
         int randomInt = random.nextInt(10000-1000) + 1000;
          return randomInt;
     }
+    
+    ////create PICKUP order ID
     public String createPickupID(){
         String pickupOrderno = new StringBuilder().append("PC-VL").append(randomNumber()).append(randomString()).toString();
         return pickupOrderno;
 
     }
 
+    //create delivery order ID
     public String createDeliveryID(){
          String deliveryOrderID = new StringBuilder().append("DC-LV").append(randomNumber()).append(randomString()).toString();
          return deliveryOrderID;
     }
     
+    //inject the userSession
     @Autowired
     UserSession userSession;
     
+    //handle place order event
     private void placeOrderButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_placeOrderButtonActionPerformed
         // TODO add your handling code here:
         String userEmail = userSession.getLoggedInUserEmail();

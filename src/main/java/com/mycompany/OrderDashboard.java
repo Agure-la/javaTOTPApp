@@ -423,6 +423,7 @@ public class OrderDashboard extends javax.swing.JFrame {
     @Autowired
     UserSession userSession;
     
+    //retrieve all delivery orders for a user
     private void myDeliveryOrdersMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_myDeliveryOrdersMouseClicked
         // TODO add your handling code here:
         this.setVisible(false);
@@ -483,6 +484,7 @@ public class OrderDashboard extends javax.swing.JFrame {
         frame.setVisible(true);
     }//GEN-LAST:event_myDeliveryOrdersMouseClicked
 
+    //retrieves all pickup orders
     private void myPickupLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_myPickupLabelMouseClicked
         // TODO add your handling code here:
         this.setVisible(false);
@@ -542,6 +544,8 @@ public class OrderDashboard extends javax.swing.JFrame {
         pickupFrame.setVisible(true);
     }//GEN-LAST:event_myPickupLabelMouseClicked
 
+    
+    //retrieves all orders
     private void ordersLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ordersLabelMouseClicked
         // TODO add your handling code here:
         this.setVisible(false);
@@ -672,6 +676,7 @@ public class OrderDashboard extends javax.swing.JFrame {
     frame.setVisible(true);
     }//GEN-LAST:event_trackOrderMouseClicked
 
+    //should return the counts of all orders for a user
     private void achievementMousedClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_achievementMousedClicked
         // TODO add your handling code here:
          this.setVisible(false);

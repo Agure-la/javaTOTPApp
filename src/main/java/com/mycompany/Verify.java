@@ -146,6 +146,7 @@ public class Verify extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    //make the field to only allow digits
     private void verifyKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_verifyKeyTyped
         // TODO add your handling code here:
         char c = evt.getKeyChar();
@@ -158,6 +159,7 @@ public class Verify extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_verifyKeyTyped
 
+    //will check if the OTP entered matches the one that was generated
     private void verifyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verifyButtonActionPerformed
         // TODO add your handling code here:
 //           if (RandomOtp.generateOTP() == expectedOtp && !RandomOtp.isOTPExpired(expectedOtp)){

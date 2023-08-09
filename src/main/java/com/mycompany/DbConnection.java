@@ -16,6 +16,7 @@ public class DbConnection {
 String user = "root";
 String password = "password";
 
+//Establish the DB connection
     public static Connection connect(){
         try {
             //Class.forName("com.mysql.jdbc.Driver");
