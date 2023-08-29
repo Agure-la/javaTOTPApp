@@ -416,8 +416,7 @@ public class OrderDashboard extends javax.swing.JFrame {
 
     private void cancelOrderMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cancelOrderMouseClicked
         // TODO add your handling code here:
-        this.setVisible(false);
-        createEditOrderForm.setVisible(false);
+        JOptionPane.showMessageDialog(rootPane, "Only Admins Cancel an order, call support");
     }//GEN-LAST:event_cancelOrderMouseClicked
 
     @Autowired
@@ -428,7 +427,6 @@ public class OrderDashboard extends javax.swing.JFrame {
         // TODO add your handling code here:
         this.setVisible(false);
         
-        //JFrame frame = new JFrame();
         JTable table = new JTable();
  
          String loggedUser = userSession.getLoggedInUserEmail();
@@ -488,7 +486,6 @@ public class OrderDashboard extends javax.swing.JFrame {
     private void myPickupLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_myPickupLabelMouseClicked
         // TODO add your handling code here:
         this.setVisible(false);
-       // JFrame pickupFrame = new JFrame();
         JTable table = new JTable();
         
         String loggedUser = userSession.getLoggedInUserEmail();

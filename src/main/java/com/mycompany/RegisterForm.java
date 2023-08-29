@@ -8,6 +8,7 @@ import static com.mycompany.DbConnection.connect;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import javax.swing.JOptionPane;
+import org.mindrot.jbcrypt.BCrypt;
 
 /**
  *
@@ -271,13 +272,14 @@ public class RegisterForm extends javax.swing.JFrame {
                             !"".equals(pass) && !"".equals(phone_no)){
                         Connection connection = connect();
                         try {
-
+                            String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
+                            String confirmedHash =  BCrypt.hashpw(pass, BCrypt.gensalt());
                             String query = ("INSERT INTO users(user_name, email, password, password_confirm, county, location, phone_no) values(?, ?, ?, ?, ?, ?, ?)");
                             PreparedStatement preparedStatement = connection.prepareStatement(query);
                             preparedStatement.setString(1, username);
                             preparedStatement.setString(2, email);
-                            preparedStatement.setString(3, password);
-                            preparedStatement.setString(4, pass);
+                            preparedStatement.setString(3, hashedPassword);//password
+                            preparedStatement.setString(4, confirmedHash);//pass
                             preparedStatement.setString(5, county);
                             preparedStatement.setString(6, location);
                             preparedStatement.setString(7, phone_no);

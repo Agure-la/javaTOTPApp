@@ -1,9 +1,16 @@
 package com.mycompany;
 
+import static com.mycompany.DbConnection.connect;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
+import com.mycompany.RandomOtp;
+import com.mycompany.Log;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -26,6 +33,9 @@ public class Verify extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
     }
+@Autowired
+    UserSession userSession;
+
 
     public void generateTime(Verify verify){
         
@@ -34,16 +44,17 @@ public class Verify extends javax.swing.JFrame {
                 if (remainingTime > 0) {
                     remainingTime--;
                     timeTextField.setText("OTP Expires in " + remainingTime + " seconds");
-                } else {
-                    if (!expiredMessageShown) { // Check if the message dialog has been shown
-                    JOptionPane.showMessageDialog(null, "Your OTP has expired");
-                    expiredMessageShown = true; // Set the flag to true to indicate the message was shown
                 }
-                   // JOptionPane.showMessageDialog(null, "Your OTP has expired");
-                    verify.setVisible(false);
-                    new Login().setVisible(true);
-                    
-                }
+//                else {
+//                    if (!expiredMessageShown) { // Check if the message dialog has been shown
+//                    JOptionPane.showMessageDialog(null, "Your OTP has expired");
+//                    expiredMessageShown = true; // Set the flag to true to indicate the message was shown
+//                }
+//                   // JOptionPane.showMessageDialog(null, "Your OTP has expired");
+//                    verify.setVisible(false);
+//                    new Login().setVisible(true);
+//                    
+//                }
             }
         });
 
@@ -159,29 +170,62 @@ public class Verify extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_verifyKeyTyped
 
+    //retrieves OTP from the db
+    public int getOtpFromDatabase(String userEmail) {
+    int otp = 0;
+    try {
+        Connection connection = connect();
+        Statement stmt = connection.createStatement();
+        String query = "SELECT otp_code FROM otp_codes WHERE user_email = '" + userEmail + "'";
+        ResultSet resultSet = stmt.executeQuery(query);
+        if (resultSet.next()) {
+            otp = resultSet.getInt("otp_code");
+        }
+    } catch (Exception ex) {
+        ex.printStackTrace();
+    }
+    return otp;
+}
+    
+    //deletes OTP from the db
+    private void deleteOtpFromDatabase(String userEmail) {
+    try {
+        Connection connection = connect();
+        Statement stmt = connection.createStatement();
+        String deleteQuery = "DELETE FROM otp_codes WHERE user_email = '" + userEmail + "'";
+        stmt.executeUpdate(deleteQuery);
+    } catch (Exception ex) {
+        ex.printStackTrace();
+    }
+}
     //will check if the OTP entered matches the one that was generated
     private void verifyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verifyButtonActionPerformed
         // TODO add your handling code here:
-//           if (RandomOtp.generateOTP() == expectedOtp && !RandomOtp.isOTPExpired(expectedOtp)){
-//            this.dispose();
-//            new DashBoard().setVisible(true);
-//        }
-//        else if (RandomOtp.isOTPExpired(expectedOtp)){
-//            JOptionPane.showInputDialog(null, "The OTP has expired please get new OTP");
-//        }
-//        else{
-//            JOptionPane.showInputDialog(null, "Please Enter a valid OTP");
-//        }
-//        String textOtp = otpTextField.getText();
-//        int expectedOtp = Integer.parseInt(textOtp);
-//        
-//        if(expectedOtp == rand.resultOTP){
+        
+
+         String textOtp = verifyTextField.getText();
+        int expectedOtp = Integer.parseInt(textOtp);
+        String userEmail = userSession.getLoggedInUserEmail();
+        int retrievedOtp = getOtpFromDatabase(userEmail);
+        if (retrievedOtp == expectedOtp) {
+        // Delete the OTP from the database
+        deleteOtpFromDatabase(userEmail);
+        
+        if (!RandomOtp.isOTPExpired(expectedOtp)) {
             this.dispose();
             new DashBoard().setVisible(true);
-//        }
-//        else{
-//            JOptionPane.showMessageDialog(null, "Please Enetr The Correct OTP ");
-//        }
+        } 
+        else {
+            JOptionPane.showInputDialog(null, "The OTP has expired please get new OTP");
+            this.dispose();
+            new Login().setVisible(true);
+        }
+    } else {
+        JOptionPane.showInputDialog(null, "Please Enter a valid OTP");
+    }
+        
+
+
     }//GEN-LAST:event_verifyButtonActionPerformed
 
     /**

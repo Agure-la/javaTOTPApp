@@ -19,6 +19,8 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import java.security.SecureRandom;
 import java.util.Base64;
+import com.mycompany.RandomOtp;
+import org.mindrot.jbcrypt.BCrypt;
 
 /**
  *
@@ -28,12 +30,11 @@ public class Login extends javax.swing.JFrame {
 
     String password;
     public String email;
-    
+    public int otp;
     /**
      * Creates new form Login
      */
     public Login() {
-        //this.email = usernameTextField.getText();
         initComponents();
         setLocationRelativeTo(null);
     }
@@ -234,6 +235,15 @@ public class Login extends javax.swing.JFrame {
     return email;
     }
     
+    
+    public void setOtp(int otpValue){
+         this.otp = otpValue;
+    }
+    
+    public int getOtp(){
+        return otp;
+    }
+    
     //generate secret key for jwt
     public static String generateSecretKey() {
         int keyLengthInBytes = 32; // 256 bits
@@ -278,7 +288,8 @@ public class Login extends javax.swing.JFrame {
                 Connection connection = connect();
                 try {
                     Statement stmt = connection.createStatement();
-                    String query = ("Select * FROM users WHERE email = '" + email + "' AND password = '" + password + "'");
+                    //String query = ("Select * FROM users WHERE email = '" + email + "' AND password = '" + password + "'");
+                    String query = ("Select * FROM users WHERE email = '" + email + "'");
                     ResultSet resultSet = stmt.executeQuery(query);
                     if (resultSet.next() == false){
                         JOptionPane.showMessageDialog(null, "Please Register");
@@ -286,24 +297,33 @@ public class Login extends javax.swing.JFrame {
                        new RegisterForm().setVisible(true);
                     }
                     else{
-//                        String secretKey = generateSecretKey();
-//                           //generateJwtToken.setSecretKey(secretKey);
-//
-//                           // Now, you can generate JWT tokens using the secret key
-//                           String username = email;
-//                            String jwtToken = generateJwtToken(username);
+//                       
+                           String storedHashedPassword = resultSet.getString("password");
+                           if (BCrypt.checkpw(password, storedHashedPassword)){
                            this.dispose();
                           
                            Verify vrify = new Verify();
                            vrify.generateTime(vrify);
-//                           JOptionPane.showMessageDialog(null, "OTP has been sent to " + email);
-//                           EmailSender emailSender = new EmailSender();
-//                           RandomOtp newRandom = new RandomOtp();
-//                           int otp = newRandom.resultOTP;
-//                           String message = "Your OTP is " + otp + ".";
-//                           emailSender.sendEmail(email, message);
+                           JOptionPane.showMessageDialog(null, "OTP has been sent to " + email);
+                           EmailSender emailSender = new EmailSender();
+                          int universalOtp = RandomOtp.generateOTP();
+                          Login login = new Login();
+                          login.setOtp(universalOtp);
+                           //int otp = newRandom.resultOTP;
+                           String message = "Your OTP is " + universalOtp + ".";
+                           try{
+                               String insertQuery = "INSERT INTO otp_codes (user_email, otp_code) VALUES ('" + email + "', " + universalOtp + ")";
+                               stmt.executeUpdate(insertQuery);
+                           }
+                           catch(Exception ex){
+                               ex.printStackTrace();
+                           }
+                           emailSender.sendEmail(email, message);
                           vrify.setVisible(true);
-                         // new OtpVerification().setVisible(true);
+                           }
+                           else{
+                               JOptionPane.showMessageDialog(null, "Invalid username or password");
+                           }
 
                     }
                 }
